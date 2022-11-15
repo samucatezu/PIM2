@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Endereco {
+public class Address {
 
     private String zipcode;
     private String street;
