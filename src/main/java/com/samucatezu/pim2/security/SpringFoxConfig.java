@@ -18,13 +18,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SpringFoxConfig {
 
     @Bean
-    public Docket swaggerApi() {
+    public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build()
-                .apiInfo(metaData());
+                .build();
     }
 
     private ApiInfo metaData() {

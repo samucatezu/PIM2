@@ -54,11 +54,10 @@ public class InsuranceController {
     @PostMapping("/users/{userId}/insurances")
     public ResponseEntity<Insurance> createInsurance(@PathVariable(value = "userId") Long userId,
                                                  @RequestBody Insurance insuranceRequest) {
-        Insurance insurance = userRepository.findById(userId).map(user -> {
-            user.getInsurances().add(insuranceRequest);
-            return insuranceRepository.save(insuranceRequest);
-        }).orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + userId));
-
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + userId));
+                insuranceRequest.setUser(user);
+                Insurance insurance = insuranceRepository.save(insuranceRequest);
         return new ResponseEntity<>(insurance, HttpStatus.CREATED);
     }
 

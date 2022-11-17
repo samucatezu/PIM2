@@ -25,7 +25,7 @@ public class Insurance {
 
     private String valor;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne( optional = false)
     @JoinColumn( nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore

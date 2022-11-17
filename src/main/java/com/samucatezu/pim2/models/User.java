@@ -1,8 +1,6 @@
 package com.samucatezu.pim2.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users", 
+@Table(name = "users",
     uniqueConstraints = { 
       @UniqueConstraint(columnNames = "username"),
       @UniqueConstraint(columnNames = "email") 
@@ -60,7 +58,9 @@ public class User {
   private Address address;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-  @JoinColumn(name = "insurance_id")
+  @JoinColumn(name = "user_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Set<Insurance> insurances = new HashSet<>();
 
   public User(String username, String email, String password) {
@@ -103,6 +103,10 @@ public class User {
 
   public Set<Role> getRoles() {
     return roles;
+  }
+
+  public Set<Insurance> getInsurances() {
+    return insurances;
   }
 
   public void setRoles(Set<Role> roles) {
