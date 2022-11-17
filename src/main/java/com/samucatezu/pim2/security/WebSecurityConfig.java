@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 @Configuration
 @EnableGlobalMethodSecurity(
@@ -82,8 +83,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
+            .and().httpBasic().authenticationEntryPoint(swaggerAuthenticationEntryPoint());
+            http.authorizeRequests().antMatchers("/api/auth/**").permitAll()
             .antMatchers("/api/test/**").permitAll()
             .antMatchers("/api/**").permitAll()
             .anyRequest().authenticated();
@@ -94,4 +97,18 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
     return http.build();
   }
+
+  @Bean
+  public BasicAuthenticationEntryPoint swaggerAuthenticationEntryPoint() {
+    BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
+    entryPoint.setRealmName("Swagger Realm");
+    return entryPoint;
+  }
+
+  private static final String[] AUTH_WHITELIST = {
+          "**/swagger-resources/**",
+          "/swagger-ui.html",
+          "/v2/api-docs",
+          "/webjars/**"
+  };
 }
