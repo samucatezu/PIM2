@@ -59,6 +59,10 @@ public class User {
   @Embedded
   private Address address;
 
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+  @JoinColumn(name = "insurance_id")
+  private Set<Insurance> insurances = new HashSet<>();
+
   public User(String username, String email, String password) {
     this.username = username;
     this.email = email;
@@ -104,4 +108,5 @@ public class User {
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
+
 }
