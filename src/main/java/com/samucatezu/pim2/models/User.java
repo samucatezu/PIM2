@@ -38,7 +38,7 @@ public class User {
 
   private String sexo;
 
-  private Date data_nascimento;
+  private String data_nascimento;
   @NotBlank
   @Size(max = 50)
   @Email

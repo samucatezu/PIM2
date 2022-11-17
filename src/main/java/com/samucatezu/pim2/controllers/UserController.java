@@ -43,17 +43,23 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-//    @PutMapping("/users/{id}")
-//    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-//        User _user = userRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
-//
-//        _user.setTitle(user.getTitle());
-//        _user.setDescription(user.getDescription());
-//        _user.setPublished(user.isPublished());
-//
-//        return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-//    }
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
+        User _user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
+
+        _user.setEmail(user.getEmail());
+        _user.setUsername(user.getUsername());
+        _user.setDocumento(user.getDocumento());
+        _user.setTelefone(user.getTelefone());
+        _user.setFirst_acess(user.isFirst_acess());
+        _user.setFormacao(user.getFormacao());
+        _user.setSexo(user.getSexo());
+        _user.setData_nascimento(user.getData_nascimento());
+        _user.setAddress(user.getAddress());
+
+        return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+    }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") long id) {

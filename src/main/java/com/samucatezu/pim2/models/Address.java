@@ -12,9 +12,10 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 public class Address {
 
-    private String zipcode;
-    private String street;
-    private String number;
-    private String neighbor;
-    private String estate;
+    private String cep;
+    private String rua;
+    private String numero;
+    private String bairro;
+    private String cidade;
+    private String estado;
 }
