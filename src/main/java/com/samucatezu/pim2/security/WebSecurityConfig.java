@@ -82,7 +82,6 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
             .and().httpBasic().authenticationEntryPoint(swaggerAuthenticationEntryPoint());
@@ -106,9 +105,17 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   }
 
   private static final String[] AUTH_WHITELIST = {
-          "**/swagger-resources/**",
-          "/swagger-ui.html",
+          // -- Swagger UI v2
           "/v2/api-docs",
-          "/webjars/**"
+          "/swagger-resources",
+          "/swagger-resources/**",
+          "/configuration/ui",
+          "/configuration/security",
+          "/swagger-ui.html",
+          "/webjars/",
+          // -- Swagger UI v3 (OpenAPI)
+          "/v3/api-docs/",
+          "/swagger-ui/"
+          // other public endpoints of your API may be appended to this array
   };
 }
