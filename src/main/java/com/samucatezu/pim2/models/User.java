@@ -1,6 +1,7 @@
 package com.samucatezu.pim2.models;
 
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -32,6 +33,7 @@ public class User {
 
   private String telefone;
 
+  @Value("${some.key:false}")
   private boolean first_acess;
 
   private String formacao;

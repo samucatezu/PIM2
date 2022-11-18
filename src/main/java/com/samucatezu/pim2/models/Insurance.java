@@ -33,8 +33,7 @@ public class Insurance {
 
     private String maximoDependentes;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date vencimento;
+    private String vencimento;
 
     private String descricao;
 }
