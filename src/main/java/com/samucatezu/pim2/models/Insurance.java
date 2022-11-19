@@ -21,15 +21,11 @@ import java.util.Date;
 public class Insurance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long insuranceId;
+
+    private String name;
 
     private String valor;
-
-    @ManyToOne( optional = false)
-    @JoinColumn( nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private User user;
 
     private String maximoDependentes;
 

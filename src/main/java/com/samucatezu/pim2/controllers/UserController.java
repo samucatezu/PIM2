@@ -24,9 +24,9 @@ public class UserController {
         List<User> users = new ArrayList<User>();
 
         if (email == null)
-            userRepository.findAll().forEach(users::add);
+            users.addAll(userRepository.findAll());
         else
-            userRepository.findByEmail(email).forEach(users::add);
+            users.addAll(userRepository.findByEmail(email));
 
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -59,11 +59,9 @@ public class User {
   @Embedded
   private Address address;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-  @JoinColumn(name = "user_id")
-  @EqualsAndHashCode.Exclude
-  @ToString.Exclude
-  private Set<Insurance> insurances = new HashSet<>();
+  @ManyToOne
+  @JoinColumn(name = "insuranceId", insertable = false, updatable = false) //Mediante esto, no se actualizan ni
+  private Insurance insurance;
 
   public User(String username, String email, String password) {
     this.username = username;
@@ -107,9 +105,7 @@ public class User {
     return roles;
   }
 
-  public Set<Insurance> getInsurances() {
-    return insurances;
-  }
+
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
