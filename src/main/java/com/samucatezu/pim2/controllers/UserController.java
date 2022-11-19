@@ -1,7 +1,11 @@
 package com.samucatezu.pim2.controllers;
 
 import com.samucatezu.pim2.exception.ResourceNotFoundException;
+import com.samucatezu.pim2.models.Insurance;
 import com.samucatezu.pim2.models.User;
+import com.samucatezu.pim2.payload.request.SignInsuranceRequest;
+import com.samucatezu.pim2.payload.request.SignupRequest;
+import com.samucatezu.pim2.repository.InsuranceRepository;
 import com.samucatezu.pim2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +22,9 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    InsuranceRepository insuranceRepository;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String email) {
@@ -39,8 +46,15 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
-
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PutMapping("/User/{id}/addPlan")
+    public ResponseEntity<User> addPlanToUser(@PathVariable("id") long id, @RequestBody User user) {
+        User _user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
+        _user.setInsurance(user.getInsurance());
+        return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     }
 
     @PutMapping("/users/{id}")
