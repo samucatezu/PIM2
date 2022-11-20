@@ -33,5 +33,10 @@ public class Insurance {
 
     private String descricao;
 
+    @ManyToOne
+    @JoinColumn(name = "users_id", referencedColumnName = "id")
+    private User user;
+
+
 }
 

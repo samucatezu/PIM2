@@ -54,7 +54,7 @@ public class UserController {
         User _user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
 
-        _user.setInsurance(user.getInsurance());
+        _user.setInsurances(user.getInsurances());
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     }
 

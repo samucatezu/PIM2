@@ -1,5 +1,6 @@
 package com.samucatezu.pim2.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -7,9 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users",
@@ -59,9 +58,8 @@ public class User {
   @Embedded
   private Address address;
 
-  @ManyToOne
-  @JoinColumn(name = "insuranceId", insertable = false) //Mediante esto, no se actualizan ni
-  private Insurance insurance;
+  @OneToMany
+  private List<Insurance> insurances;
 
   public User(String username, String email, String password) {
     this.username = username;
