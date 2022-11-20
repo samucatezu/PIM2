@@ -60,7 +60,7 @@ public class User {
   @OneToMany
   private List<Address> address;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER)
   private List<Insurance> insurances;
 
   public User(String username, String email, String password) {

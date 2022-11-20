@@ -32,9 +32,6 @@ public class UserController {
 
         if (email == null)
             users.addAll(userRepository.findAll());
-        else
-            users.addAll(userRepository.findByEmail(email));
-
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -49,7 +46,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/User/{id}/addPlan/{insuranceId}")
+    @PostMapping("/User/{id}/addPlan")
     public ResponseEntity<User> addPlanToUser(@PathVariable("id") long id, @RequestBody User user) {
         User _user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
