@@ -1,6 +1,5 @@
 package com.samucatezu.pim2.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -28,18 +27,21 @@ public class User {
   @Size(max = 20)
   private String username;
 
-  private String documento;
+  private String clientSalary;
 
-  private String telefone;
+  private String clientSex;
 
   @Value("${some.key:false}")
   private boolean first_acess;
 
-  private String formacao;
+  private String clientPhone;
 
-  private String sexo;
+  private String clientDependents;
 
-  private String data_nascimento;
+  private String clientBirthDate;
+
+  private String clientDegree;
+
   @NotBlank
   @Size(max = 50)
   @Email
@@ -55,8 +57,8 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @Embedded
-  private Address address;
+  @OneToMany
+  private List<Address> address;
 
   @OneToMany
   private List<Insurance> insurances;

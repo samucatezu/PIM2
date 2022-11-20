@@ -25,13 +25,15 @@ public class Insurance {
 
     private String name;
 
-    private String valor;
+    private String price;
 
-    private String maximoDependentes;
+    private String dependents;
 
-    private String vencimento;
+    private String expirationDate;
 
-    private String descricao;
+    private String insuranceType;
+
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "users_id", referencedColumnName = "id")

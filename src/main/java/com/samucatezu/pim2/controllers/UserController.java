@@ -63,14 +63,12 @@ public class UserController {
         User _user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
 
-        _user.setEmail(user.getEmail());
-        _user.setUsername(user.getUsername());
-        _user.setDocumento(user.getDocumento());
-        _user.setTelefone(user.getTelefone());
-        _user.setFirst_acess(user.isFirst_acess());
-        _user.setFormacao(user.getFormacao());
-        _user.setSexo(user.getSexo());
-        _user.setData_nascimento(user.getData_nascimento());
+        _user.setClientPhone(user.getClientPhone());
+        _user.setClientBirthDate(user.getClientBirthDate());
+        _user.setClientDegree(user.getClientDegree());
+        _user.setClientSalary(user.getClientSalary());
+        _user.setClientDependents(user.getClientDependents());
+        _user.setClientSex(user.getClientSex());
         _user.setAddress(user.getAddress());
 
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
