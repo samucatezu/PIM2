@@ -42,6 +42,8 @@ public class User {
 
   private String clientDegree;
 
+  private String clientIdentification;
+
   @NotBlank
   @Size(max = 50)
   @Email
