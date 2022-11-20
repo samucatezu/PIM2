@@ -24,26 +24,6 @@ public class InsuranceController {
     @Autowired
     private InsuranceRepository insuranceRepository;
 
-    @GetMapping("/insurances/{id}")
-    public ResponseEntity<Insurance> getInsurancesByUserId(@PathVariable(value = "id") Long Insuranceid) {
-        Insurance insurance = insuranceRepository.findById(Insuranceid)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found Insurance with id = " + Insuranceid));
-
-        return new ResponseEntity<>(insurance, HttpStatus.OK);
-    }
-
-//    @PostMapping("/users/{userId}/insurances")
-//    public ResponseEntity<Insurance> createInsurance(@PathVariable(value = "userId") Long userId,
-//                                                 @RequestBody Insurance insuranceRequest) {
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + userId));
-//                insuranceRequest.setUser(user);
-//                Insurance insurance = insuranceRepository.save(insuranceRequest);
-//        return new ResponseEntity<>(insurance, HttpStatus.CREATED);
-//    }
-
-// Criar os planos via SQL
-
     @GetMapping("/insurances")
     public ResponseEntity<List<Insurance>> getAllInsurances(@RequestParam(required = false) Long insuranceId) {
         List<Insurance> insurances = new ArrayList<Insurance>();

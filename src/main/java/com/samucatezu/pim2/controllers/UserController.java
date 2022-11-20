@@ -39,26 +39,26 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/User/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
+    @GetMapping("/User/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/User/{id}/addPlan")
-    public ResponseEntity<User> addPlanToUser(@PathVariable("id") long id, @RequestBody User user) {
-        User _user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
+    @PostMapping("/User/{email}/addPlan")
+    public ResponseEntity<User> addPlanToUser(@PathVariable("email") String email, @RequestBody User user) {
+        User _user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
 
         _user.setInsurances(user.getInsurances());
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     }
 
-    @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-        User _user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
+    @PutMapping("/users/{email}")
+    public ResponseEntity<User> updateUser(@PathVariable("email") String email, @RequestBody User user) {
+        User _user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
 
         _user.setClientPhone(user.getClientPhone());
         _user.setClientBirthDate(user.getClientBirthDate());
@@ -69,13 +69,6 @@ public class UserController {
         _user.setAddress(user.getAddress());
 
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") long id) {
-        userRepository.deleteById(id);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/users")
