@@ -60,7 +60,7 @@ public class User {
   private Address address;
 
   @ManyToOne
-  @JoinColumn(name = "insuranceId", insertable = false, updatable = false) //Mediante esto, no se actualizan ni
+  @JoinColumn(name = "insuranceId", insertable = false) //Mediante esto, no se actualizan ni
   private Insurance insurance;
 
   public User(String username, String email, String password) {

@@ -32,5 +32,6 @@ public class Insurance {
     private String vencimento;
 
     private String descricao;
+
 }
 

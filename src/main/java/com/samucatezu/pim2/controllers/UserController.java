@@ -49,10 +49,11 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PutMapping("/User/{id}/addPlan")
+    @PostMapping("/User/{id}/addPlan/{insuranceId}")
     public ResponseEntity<User> addPlanToUser(@PathVariable("id") long id, @RequestBody User user) {
         User _user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with id = " + id));
+
         _user.setInsurance(user.getInsurance());
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     }
