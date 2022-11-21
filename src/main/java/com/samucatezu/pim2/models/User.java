@@ -65,9 +65,10 @@ public class User {
   @OneToMany(fetch = FetchType.EAGER)
   private List<Insurance> insurances;
 
-  public User(String username, String email, String password) {
+  public User(String username, String email, String password, String clientIdentification) {
     this.username = username;
     this.email = email;
+    this.clientIdentification = clientIdentification;
     this.password = password;
   }
 
@@ -106,8 +107,6 @@ public class User {
   public Set<Role> getRoles() {
     return roles;
   }
-
-
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;

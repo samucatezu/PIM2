@@ -15,6 +15,8 @@ public class SignupRequest {
   @Email
   private String email;
 
+  @NotBlank
+  private String clientIdentification;
   private Set<String> role;
 
   @NotBlank
@@ -45,9 +47,18 @@ public class SignupRequest {
     this.password = password;
   }
 
+  public String getClientIdentification() {
+    return clientIdentification;
+  }
+
+  public void setClientIdentification(String clientIdentification) {
+    this.clientIdentification = clientIdentification;
+  }
+
   public Set<String> getRole() {
     return this.role;
   }
+
 
   public void setRole(Set<String> role) {
     this.role = role;
