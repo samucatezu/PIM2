@@ -55,7 +55,7 @@ public class UserController {
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     }
 
-    @PutMapping("/users/{email}")
+    @PatchMapping("/users/{email}")
     public ResponseEntity<User> updateUser(@PathVariable("email") String email, @RequestBody User user) {
         User _user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
@@ -67,6 +67,7 @@ public class UserController {
         _user.setClientDependents(user.getClientDependents());
         _user.setClientSex(user.getClientSex());
         _user.setAddress(user.getAddress());
+        _user.setFirst_acess(user.isFirst_acess());
 
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     }
