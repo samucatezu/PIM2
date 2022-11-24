@@ -17,27 +17,19 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "insurance")
+@Table(name = "users_insurances")
 public class Insurance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long insuranceId;
 
-    private String name;
-
-    private String price;
-
     private String dependents;
 
     private String expirationDate;
 
-    private String insuranceType;
-
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "users_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "insurance_place_holder_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private InsurancePlaceHolder insurancePlaceHolder;
 
 
 }

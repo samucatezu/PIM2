@@ -1,21 +1,21 @@
 package com.samucatezu.pim2.payload.request;
 
 import com.samucatezu.pim2.models.Insurance;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class SignInsuranceRequest {
 
-    @ManyToOne
-    @JoinColumn(name = "insuranceId", insertable = false, updatable = false)
-    private Insurance insurance;
+    private Long insurancePlaceHolderId;
 
-    public Insurance getInsurance() {
-        return insurance;
-    }
+    private String dependents;
 
-    public void setInsurance(Insurance insurance) {
-        this.insurance = insurance;
-    }
+    private String expirationDate;
+
+
+
 }

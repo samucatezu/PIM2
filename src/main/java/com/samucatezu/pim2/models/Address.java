@@ -1,8 +1,6 @@
 package com.samucatezu.pim2.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,7 +19,4 @@ public class Address {
     private String addressNumber;
 
 
-    @ManyToOne
-    @JoinColumn(name = "users_id", referencedColumnName = "id")
-    private User user;
 }

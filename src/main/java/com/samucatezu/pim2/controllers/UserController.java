@@ -1,10 +1,15 @@
 package com.samucatezu.pim2.controllers;
 
 import com.samucatezu.pim2.exception.ResourceNotFoundException;
+import com.samucatezu.pim2.models.Address;
 import com.samucatezu.pim2.models.Insurance;
+import com.samucatezu.pim2.models.InsurancePlaceHolder;
 import com.samucatezu.pim2.models.User;
 import com.samucatezu.pim2.payload.request.SignInsuranceRequest;
 import com.samucatezu.pim2.payload.request.SignupRequest;
+import com.samucatezu.pim2.payload.request.UpdateUserRequest;
+import com.samucatezu.pim2.repository.AddressRepository;
+import com.samucatezu.pim2.repository.InsurancePlaceHolderRepository;
 import com.samucatezu.pim2.repository.InsuranceRepository;
 import com.samucatezu.pim2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +30,12 @@ public class UserController {
 
     @Autowired
     InsuranceRepository insuranceRepository;
+
+    @Autowired
+    AddressRepository addressRepository;
+
+    @Autowired
+    InsurancePlaceHolderRepository insurancePlaceHolderRepository;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String email) {
@@ -47,18 +58,34 @@ public class UserController {
     }
 
     @PostMapping("/User/{email}/addPlan")
-    public ResponseEntity<User> addPlanToUser(@PathVariable("email") String email, @RequestBody User user) {
+    public ResponseEntity<User> addPlanToUser(@PathVariable("email") String email, @RequestBody SignInsuranceRequest signInsuranceRequest) {
         User _user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
+        InsurancePlaceHolder insurancePlaceHolder = insurancePlaceHolderRepository.findById(signInsuranceRequest.getInsurancePlaceHolderId())
+                .orElseThrow(() -> new ResourceNotFoundException("Not found insurancePlaceHolder with id = " + signInsuranceRequest.getInsurancePlaceHolderId()));
 
-        _user.setInsurances(user.getInsurances());
+        Insurance insurance = new Insurance(null, signInsuranceRequest.getDependents(), signInsuranceRequest.getExpirationDate(), insurancePlaceHolder);
+
+        _user.addInsurance(insurance);
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     }
 
+//    @PostMapping("/User/{email}/addAddress")
+//    public ResponseEntity<User> addAddressToUser(@PathVariable("email") String email, @RequestBody User user) {
+//        User _user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
+//
+//        _user.setInsurances(user.getInsurances());
+//        return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+//    }
+
     @PatchMapping("/users/{email}")
-    public ResponseEntity<User> updateUser(@PathVariable("email") String email, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("email") String email, @RequestBody UpdateUserRequest user) {
         User _user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
+
+        Address address = new Address(null, user.getAddressStreet(), user.getAddressNumber(), user.getAddressComplement());
+
 
         _user.setClientPhone(user.getClientPhone());
         _user.setClientBirthDate(user.getClientBirthDate());
@@ -66,9 +93,8 @@ public class UserController {
         _user.setClientSalary(user.getClientSalary());
         _user.setClientDependents(user.getClientDependents());
         _user.setClientSex(user.getClientSex());
-        _user.setAddress(user.getAddress());
-        _user.setFirst_acess(user.isFirst_acess());
-
+        _user.addAddress(address);
+        _user.setFirst_access(false);
         return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     }
 

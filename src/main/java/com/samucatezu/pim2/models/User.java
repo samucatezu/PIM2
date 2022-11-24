@@ -1,6 +1,8 @@
 package com.samucatezu.pim2.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -31,8 +33,7 @@ public class User {
 
   private String clientSex;
 
-  @Value("${some.key:false}")
-  private boolean first_acess;
+  private boolean first_access = true;
 
   private String clientPhone;
 
@@ -51,6 +52,7 @@ public class User {
 
   @NotBlank
   @Size(max = 120)
+  @JsonIgnore
   private String password;
 
   @ManyToMany(fetch = FetchType.LAZY)
@@ -59,17 +61,29 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @OneToMany
-  private List<Address> address;
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  @OneToMany( cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
+  private List<Address> address = new ArrayList<>();
 
-  @OneToMany(fetch = FetchType.EAGER)
-  private List<Insurance> insurances;
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
+  private List<Insurance> insurances = new ArrayList<>();
 
   public User(String username, String email, String password, String clientIdentification) {
     this.username = username;
     this.email = email;
     this.clientIdentification = clientIdentification;
     this.password = password;
+  }
+
+  public void addAddress(Address addAddress) {
+    address.add(addAddress);
+  }
+
+  public void addInsurance(Insurance addInsurance) {
+    insurances.add(addInsurance);
   }
 
   public Long getId() {

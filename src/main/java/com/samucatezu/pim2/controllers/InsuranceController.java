@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.samucatezu.pim2.exception.ResourceNotFoundException;
 import com.samucatezu.pim2.models.Insurance;
+import com.samucatezu.pim2.models.InsurancePlaceHolder;
 import com.samucatezu.pim2.models.User;
+import com.samucatezu.pim2.repository.InsurancePlaceHolderRepository;
 import com.samucatezu.pim2.repository.InsuranceRepository;
 import com.samucatezu.pim2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +24,17 @@ public class InsuranceController {
     private UserRepository userRepository;
 
     @Autowired
-    private InsuranceRepository insuranceRepository;
+    private InsurancePlaceHolderRepository insurancePlaceHolderRepository;
 
     @GetMapping("/insurances")
-    public ResponseEntity<List<Insurance>> getAllInsurances(@RequestParam(required = false) Long insuranceId) {
-        List<Insurance> insurances = new ArrayList<Insurance>();
+    public ResponseEntity<List<InsurancePlaceHolder>> getAllInsurances(@RequestParam(required = false) Long id) throws Exception {
+        List<InsurancePlaceHolder> insurances = new ArrayList<InsurancePlaceHolder>();
 
 
-        if (insuranceId == null)
-            insurances.addAll(insuranceRepository.findAll());
+        if (id == null)
+            insurances.addAll(insurancePlaceHolderRepository.findAll());
         else
-            insurances.addAll(insuranceRepository.findByInsuranceId(insuranceId));
+            insurances.add(insurancePlaceHolderRepository.findById(id).orElseThrow(Exception::new));
 
         if (insurances.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
