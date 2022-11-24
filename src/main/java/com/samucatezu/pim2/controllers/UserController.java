@@ -57,10 +57,10 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/User/{email}/addPlan")
-    public ResponseEntity<User> addPlanToUser(@PathVariable("email") String email, @RequestBody SignInsuranceRequest signInsuranceRequest) {
-        User _user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
+    @PostMapping("/User/{clientIdentification}/addPlan")
+    public ResponseEntity<User> addPlanToUser(@PathVariable("clientIdentification") String clientIdentification, @RequestBody SignInsuranceRequest signInsuranceRequest) {
+        User _user = userRepository.findByClientIdentification(clientIdentification)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with this clientIdentification = " + clientIdentification));
         InsurancePlaceHolder insurancePlaceHolder = insurancePlaceHolderRepository.findById(signInsuranceRequest.getInsurancePlaceHolderId())
                 .orElseThrow(() -> new ResourceNotFoundException("Not found insurancePlaceHolder with id = " + signInsuranceRequest.getInsurancePlaceHolderId()));
 
@@ -79,10 +79,10 @@ public class UserController {
 //        return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
 //    }
 
-    @PatchMapping("/users/{email}")
-    public ResponseEntity<User> updateUser(@PathVariable("email") String email, @RequestBody UpdateUserRequest user) {
-        User _user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
+    @PatchMapping("/users/{clientIdentification}")
+    public ResponseEntity<User> updateUser(@PathVariable("clientIdentification") String clientIdentification, @RequestBody UpdateUserRequest user) {
+        User _user = userRepository.findByClientIdentification(clientIdentification)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with this clientIdentification = " + clientIdentification));
 
         Address address = new Address(null, user.getAddressStreet(), user.getAddressNumber(), user.getAddressComplement());
 
