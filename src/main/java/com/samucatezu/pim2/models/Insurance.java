@@ -17,24 +17,20 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "insurance")
+@Table(name = "users_insurances")
 public class Insurance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long insuranceId;
 
-    private String valor;
+    private String dependents;
 
-    @ManyToOne( optional = false)
-    @JoinColumn( nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private User user;
+    private String expirationDate;
 
-    private String maximoDependentes;
+    @JoinColumn(name = "insurance_place_holder_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private InsurancePlaceHolder insurancePlaceHolder;
 
-    private String vencimento;
 
-    private String descricao;
 }
 

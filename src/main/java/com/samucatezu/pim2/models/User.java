@@ -1,15 +1,15 @@
 package com.samucatezu.pim2.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users",
@@ -29,18 +29,22 @@ public class User {
   @Size(max = 20)
   private String username;
 
-  private String documento;
+  private String clientSalary;
 
-  private String telefone;
+  private String clientSex;
 
-  @Value("${some.key:false}")
-  private boolean first_acess;
+  private boolean first_access = true;
 
-  private String formacao;
+  private String clientPhone;
 
-  private String sexo;
+  private String clientDependents;
 
-  private String data_nascimento;
+  private String clientBirthDate;
+
+  private String clientDegree;
+
+  private String clientIdentification;
+
   @NotBlank
   @Size(max = 50)
   @Email
@@ -48,6 +52,7 @@ public class User {
 
   @NotBlank
   @Size(max = 120)
+  @JsonIgnore
   private String password;
 
   @ManyToMany(fetch = FetchType.LAZY)
@@ -56,19 +61,29 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @Embedded
-  private Address address;
-
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-  @JoinColumn(name = "user_id")
-  @EqualsAndHashCode.Exclude
   @ToString.Exclude
-  private Set<Insurance> insurances = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  @OneToMany( cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
+  private List<Address> address = new ArrayList<>();
 
-  public User(String username, String email, String password) {
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
+  private List<Insurance> insurances = new ArrayList<>();
+
+  public User(String username, String email, String password, String clientIdentification) {
     this.username = username;
     this.email = email;
+    this.clientIdentification = clientIdentification;
     this.password = password;
+  }
+
+  public void addAddress(Address addAddress) {
+    address.add(addAddress);
+  }
+
+  public void addInsurance(Insurance addInsurance) {
+    insurances.add(addInsurance);
   }
 
   public Long getId() {
@@ -105,10 +120,6 @@ public class User {
 
   public Set<Role> getRoles() {
     return roles;
-  }
-
-  public Set<Insurance> getInsurances() {
-    return insurances;
   }
 
   public void setRoles(Set<Role> roles) {

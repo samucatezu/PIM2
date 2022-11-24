@@ -1,5 +1,7 @@
 package com.samucatezu.pim2.models;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class Role {
 
   @Enumerated(EnumType.STRING)
   @Column(length = 20)
+  @Value("ROLE_USER")
   private ERole name;
 
   public Role() {

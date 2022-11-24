@@ -3,6 +3,7 @@ package com.samucatezu.pim2.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.samucatezu.pim2.models.User;
+import com.samucatezu.pim2.payload.response.UserValor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,15 +25,18 @@ public class UserDetailsImpl implements UserDetails {
   @JsonIgnore
   private String password;
 
+  private UserValor userValor;
+
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String email, String password,
+  public UserDetailsImpl(Long id, String username, String email, String password, UserValor userValor,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
     this.authorities = authorities;
+    this.userValor = userValor;
   }
 
   public static UserDetailsImpl build(User user) {
@@ -44,13 +48,22 @@ public class UserDetailsImpl implements UserDetails {
         user.getId(), 
         user.getUsername(), 
         user.getEmail(),
-        user.getPassword(), 
+        user.getPassword(),
+        new UserValor(user),
         authorities);
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return authorities;
+  }
+
+  public UserValor getUserValor() {
+    return userValor;
+  }
+
+  public void setUserValor(UserValor userValor) {
+    this.userValor = userValor;
   }
 
   public Long getId() {

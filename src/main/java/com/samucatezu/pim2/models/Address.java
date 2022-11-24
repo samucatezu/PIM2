@@ -1,21 +1,22 @@
 package com.samucatezu.pim2.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
 
-    private String cep;
-    private String rua;
-    private String numero;
-    private String bairro;
-    private String cidade;
-    private String estado;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long addressId;
+
+    private String addressComplement;
+    private String addressStreet;
+    private String addressNumber;
+
+
 }

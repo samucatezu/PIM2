@@ -41,6 +41,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 //    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 //  }
 
+
+
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -62,6 +64,11 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     return authConfig.getAuthenticationManager();
   }
 
+  protected void configure(HttpSecurity http) throws Exception {
+    http.requiresChannel()
+            .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+            .requiresSecure();
+  }
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
