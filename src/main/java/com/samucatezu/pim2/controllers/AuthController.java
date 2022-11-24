@@ -5,7 +5,7 @@ import com.samucatezu.pim2.models.Role;
 import com.samucatezu.pim2.models.User;
 import com.samucatezu.pim2.payload.request.LoginRequest;
 import com.samucatezu.pim2.payload.request.SignupRequest;
-import com.samucatezu.pim2.payload.response.JwtResponse;
+import com.samucatezu.pim2.payload.response.userResponse;
 import com.samucatezu.pim2.payload.response.MessageResponse;
 import com.samucatezu.pim2.repository.RoleRepository;
 import com.samucatezu.pim2.repository.UserRepository;
@@ -60,13 +60,9 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles,
+        return ResponseEntity.ok(
                 userDetails.getUserValor()
-                ));
+                );
     }
 
     @PostMapping("/signup")

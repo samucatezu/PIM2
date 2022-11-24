@@ -54,6 +54,7 @@ public class UserController {
     public ResponseEntity<User> getUserByClientIdentification(@PathVariable("clientIdentification") String clientIdentification) {
         User user = userRepository.findByClientIdentification(clientIdentification)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found User with this clientIdentification = " + clientIdentification));
+
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
