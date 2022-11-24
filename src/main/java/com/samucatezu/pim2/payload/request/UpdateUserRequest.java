@@ -21,8 +21,6 @@ public class UpdateUserRequest {
 
     private String clientDegree;
 
-    private String clientIdentification;
-
     private String addressComplement;
     private String addressStreet;
     private String addressNumber;
