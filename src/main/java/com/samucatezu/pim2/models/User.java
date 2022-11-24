@@ -15,7 +15,8 @@ import java.util.*;
 @Table(name = "users",
     uniqueConstraints = { 
       @UniqueConstraint(columnNames = "username"),
-      @UniqueConstraint(columnNames = "email") 
+      @UniqueConstraint(columnNames = "email"),
+      @UniqueConstraint(columnNames = "client_identification")
     })
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,7 +43,8 @@ public class User {
   private String clientBirthDate;
 
   private String clientDegree;
-
+  @NotBlank
+  @Column(name = "client_identification")
   private String clientIdentification;
 
   @NotBlank
@@ -84,6 +86,14 @@ public class User {
 
   public void addInsurance(Insurance addInsurance) {
     insurances.add(addInsurance);
+  }
+
+  public String getClientDependents() {
+    return clientDependents;
+  }
+
+  public void setClientDependents(String clientDependents) {
+    this.clientDependents = clientDependents;
   }
 
   public Long getId() {

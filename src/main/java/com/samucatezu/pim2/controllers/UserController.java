@@ -50,10 +50,10 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/User/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found User with email = " + email));
+    @GetMapping("/User/{clientIdentification}")
+    public ResponseEntity<User> getUserByClientIdentification(@PathVariable("clientIdentification") String clientIdentification) {
+        User user = userRepository.findByClientIdentification(clientIdentification)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found User with this clientIdentification = " + clientIdentification));
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

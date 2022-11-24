@@ -12,6 +12,7 @@ import com.samucatezu.pim2.repository.UserRepository;
 import com.samucatezu.pim2.security.jwt.JwtUtils;
 import com.samucatezu.pim2.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -82,6 +83,12 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
+        if (userRepository.existsByClientIdentification(signUpRequest.getClientIdentification())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: ClientIdentification is already in use!"));
+        }
+
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
@@ -122,6 +129,6 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return new ResponseEntity<User>( HttpStatus.CREATED);
     }
 }
